@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efetivo do Exército Brasileiro 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        .chart-container { position: relative; height: 300px; }
+        .chart-container-tall { position: relative; height: 400px; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div class="w-full min-h-screen p-6">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="flex items-center justify-center gap-3 mb-4">
+                    <img 
+                        src="https://upload.wikimedia.org/wikipedia/commons/4/42/Bras%C3%A3o_do_Ex%C3%A9rcito_Brasileiro.svg" 
+                        alt="Brasão do Exército Brasileiro"
+                        class="w-16 h-16"
+                    />
+                    <h1 class="text-4xl font-bold text-white">Exército Brasileiro</h1>
+                </div>
+                <p class="text-xl text-gray-300">Decreto Nº 12.811/2026 - Distribuição do Efetivo</p>
+                <div class="mt-4 inline-block bg-yellow-400 text-slate-900 px-6 py-3 rounded-full font-bold text-2xl">
+                    Total: 212.017 militares
+                </div>
+            </div>
+
+            <!-- Navegação -->
+            <div class="flex gap-4 mb-8 flex-wrap justify-center">
+                <button onclick="showView('geral')" id="btn-geral" class="px-6 py-3 rounded-lg font-semibold transition-all bg-yellow-400 text-slate-900 shadow-lg scale-105">
+                    Visão Geral
+                </button>
+                <button onclick="showView('oficiais')" id="btn-oficiais" class="px-6 py-3 rounded-lg font-semibold transition-all bg-slate-700 text-white hover:bg-slate-600">
+                    Oficiais
+                </button>
+                <button onclick="showView('pracas')" id="btn-pracas" class="px-6 py-3 rounded-lg font-semibold transition-all bg-slate-700 text-white hover:bg-slate-600">
+                    Praças
+                </button>
+            </div>
+
+            <!-- View: Geral -->
+            <div id="view-geral" class="view-content">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-slate-800 rounded-xl p-6 shadow-2xl">
+                        <h2 class="text-2xl font-bold text-white mb-4">Distribuição Geral</h2>
+                        <div class="chart-container">
+                            <canvas id="chart-geral"></canvas>
+                        </div>
+                        <div class="mt-4 space-y-2">
+                            <div class="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-4 h-4 rounded bg-blue-700"></div>
+                                    <span class="text-white font-semibold">Oficiais</span>
+                                </div>
+                                <span class="text-gray-300">29.277</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-4 h-4 rounded bg-green-700"></div>
+                                    <span class="text-white font-semibold">Praças</span>
+                                </div>
+                                <span class="text-gray-300">182.591</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 shadow-2xl">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-blue-200 text-sm uppercase font-semibold">Oficiais</p>
+                                    <p class="text-4xl font-bold text-white mt-2">29.277</p>
+                                    <p class="text-blue-200 mt-2">13,8% do efetivo total</p>
+                                </div>
+                                <svg class="w-16 h-16 text-blue-200 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-green-600 to-green-700 rounded-xl p-6 shadow-2xl">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-green-200 text-sm uppercase font-semibold">Praças</p>
+                                    <p class="text-4xl font-bold text-white mt-2">182.591</p>
+                                    <p class="text-green-200 mt-2">86,1% do efetivo total</p>
+                                </div>
+                                <svg class="w-16 h-16 text-green-200 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-purple-600 to-purple-700 rounded-xl p-6 shadow-2xl">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-purple-200 text-sm uppercase font-semibold">Generais</p>
+                                    <p class="text-4xl font-bold text-white mt-2">149</p>
+                                    <p class="text-purple-200 mt-2">0,07% do efetivo total</p>
+                                </div>
+                                <svg class="w-16 h-16 text-purple-200 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View: Oficiais -->
+            <div id="view-oficiais" class="view-content hidden">
+                <div class="space-y-8">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-slate-800 rounded-xl p-6 shadow-2xl">
+                            <h2 class="text-2xl font-bold text-white mb-4">Categoria de Oficiais</h2>
+                            <div class="chart-container">
+                                <canvas id="chart-oficiais"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800 rounded-xl p-6 shadow-2xl">
+                            <h2 class="text-2xl font-bold text-white mb-4">Oficiais-Generais</h2>
+                            <div class="chart-container">
+                                <canvas id="chart-generais"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-800 rounded-xl p-6 shadow-2xl">
+                        <h2 class="text-2xl font-bold text-white mb-6">Oficiais de Carreira por Especialidade</h2>
+                        <div class="chart-container-tall">
+                            <canvas id="chart-carreira"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View: Praças -->
+            <div id="view-pracas" class="view-content hidden">
+                <div class="space-y-8">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-slate-800 rounded-xl p-6 shadow-2xl">
+                            <h2 class="text-2xl font-bold text-white mb-4">Categoria de Praças</h2>
+                            <div class="chart-container">
+                                <canvas id="chart-pracas"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-xl p-6 shadow-xl">
+                                <p class="text-emerald-200 text-sm uppercase font-semibold">Subtenentes e Sargentos</p>
+                                <p class="text-3xl font-bold text-white mt-2">45.565</p>
+                                <p class="text-emerald-200 mt-1">25,0% das praças</p>
+                            </div>
+
+                            <div class="bg-gradient-to-r from-green-600 to-green-700 rounded-xl p-6 shadow-xl">
+                                <p class="text-green-200 text-sm uppercase font-semibold">Cabos</p>
+                                <p class="text-3xl font-bold text-white mt-2">28.388</p>
+                                <p class="text-green-200 mt-1">15,5% das praças</p>
+                            </div>
+
+                            <div class="bg-gradient-to-r from-lime-600 to-lime-700 rounded-xl p-6 shadow-xl">
+                                <p class="text-lime-200 text-sm uppercase font-semibold">Soldados</p>
+                                <p class="text-3xl font-bold text-white mt-2">108.638</p>
+                                <p class="text-lime-200 mt-1">59,5% das praças</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-800 rounded-xl p-6 shadow-2xl">
+                        <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                            Informações Legais
+                        </h3>
+                        <div class="space-y-3 text-gray-300">
+                            <p>• <strong class="text-white">Base legal:</strong> Decreto nº 12.811, de 9 de janeiro de 2026</p>
+                            <p>• <strong class="text-white">Vigência:</strong> Revoga os Decretos nº 12.364/2025 e nº 12.520/2025</p>
+                            <p>• <strong class="text-white">Flexibilidade:</strong> O Comandante do Exército pode alterar até 20% da distribuição</p>
+                            <p>• <strong class="text-white">Fundamentação:</strong> Lei nº 7.150/1983 e Lei nº 8.071/1990</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let charts = {};
+
+        // Configuração comum para todos os gráficos
+        Chart.defaults.color = '#9ca3af';
+        Chart.defaults.font.family = 'system-ui, -apple-system, sans-serif';
+
+        // Função para trocar de view
+        function showView(view) {
+            // Esconder todas as views
+            document.querySelectorAll('.view-content').forEach(el => el.classList.add('hidden'));
+            // Mostrar a view selecionada
+            document.getElementById('view-' + view).classList.remove('hidden');
+            
+            // Atualizar botões
+            document.querySelectorAll('button[id^="btn-"]').forEach(btn => {
+                btn.className = 'px-6 py-3 rounded-lg font-semibold transition-all bg-slate-700 text-white hover:bg-slate-600';
+            });
+            
+            const activeBtn = document.getElementById('btn-' + view);
+            if (view === 'geral') {
+                activeBtn.className = 'px-6 py-3 rounded-lg font-semibold transition-all bg-yellow-400 text-slate-900 shadow-lg scale-105';
+            } else if (view === 'oficiais') {
+                activeBtn.className = 'px-6 py-3 rounded-lg font-semibold transition-all bg-blue-500 text-white shadow-lg scale-105';
+            } else if (view === 'pracas') {
+                activeBtn.className = 'px-6 py-3 rounded-lg font-semibold transition-all bg-green-500 text-white shadow-lg scale-105';
+            }
+
+            // Criar gráficos sob demanda
+            if (view === 'geral' && !charts.geral) {
+                createChartGeral();
+            } else if (view === 'oficiais' && !charts.oficiais) {
+                createChartsOficiais();
+            } else if (view === 'pracas' && !charts.pracas) {
+                createChartsPracas();
+            }
+        }
+
+        function createChartGeral() {
+            const ctx = document.getElementById('chart-geral');
+            charts.geral = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Oficiais', 'Praças'],
+                    datasets: [{
+                        data: [29277, 182591],
+                        backgroundColor: ['#1e40af', '#15803d'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed.toLocaleString('pt-BR');
+                                    const percent = ((context.parsed / 212017) * 100).toFixed(1);
+                                    return label + ': ' + value + ' (' + percent + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createChartsOficiais() {
+            // Gráfico de Categoria de Oficiais
+            const ctx1 = document.getElementById('chart-oficiais');
+            charts.oficiais = new Chart(ctx1, {
+                type: 'pie',
+                data: {
+                    labels: ['Oficiais-Generais', 'Oficiais de Carreira', 'Oficiais Temporários'],
+                    datasets: [{
+                        data: [149, 18524, 10753],
+                        backgroundColor: ['#7c3aed', '#2563eb', '#0891b2'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#9ca3af', padding: 15 } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.parsed.toLocaleString('pt-BR');
+                                    const percent = ((context.parsed / 29277) * 100).toFixed(1);
+                                    return context.label + ': ' + value + ' (' + percent + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de Generais
+            const ctx2 = document.getElementById('chart-generais');
+            charts.generais = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['Gen. Exército', 'Gen. Divisão', 'Gen. Brigada'],
+                    datasets: [{
+                        data: [15, 48, 86],
+                        backgroundColor: ['#9333ea', '#a855f7', '#c084fc'],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#374151' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // Gráfico de Carreira
+            const ctx3 = document.getElementById('chart-carreira');
+            charts.carreira = new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: ['Armas e QMB', 'Quadro Auxiliar', 'Saúde (Médicos)', 'Q. Complementar', 'Intendência', 'Eng. Militares', 'Saúde (Dentistas)', 'Saúde (Farmac.)'],
+                    datasets: [{
+                        data: [9395, 3869, 1272, 1232, 1188, 1042, 282, 177],
+                        backgroundColor: ['#1e40af', '#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe', '#dbeafe', '#eff6ff'],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { beginAtZero: true, grid: { color: '#374151' } },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        function createChartsPracas() {
+            const ctx = document.getElementById('chart-pracas');
+            charts.pracas = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Subtenentes e Sargentos', 'Cabos', 'Soldados'],
+                    datasets: [{
+                        data: [45565, 28388, 108638],
+                        backgroundColor: ['#059669', '#10b981', '#34d399'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#9ca3af', padding: 15 } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.parsed.toLocaleString('pt-BR');
+                                    const percent = ((context.parsed / 182591) * 100).toFixed(1);
+                                    return context.label + ': ' + value + ' (' + percent + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Inicializar primeira view
+        createChartGeral();
+    </script>
+</body>
+</html>
